@@ -1,4 +1,9 @@
 <?php
+use App\Http\Controllers\Admin\AuthActivityReportController;
+use App\Http\Controllers\Admin\MemberPaymentAttendanceReportController;
+use App\Http\Controllers\Trainer\IncomingRentHistoryController;
+use App\Http\Controllers\Trainer\MemberFitnessMonitoringController;
+use App\Http\Middleware\EnsureTrainerWorkspaceAccess;
 use App\Http\Controllers\Admin\LandingVisitReportController;
 use App\Http\Controllers\Admin\ProspectiveMemberReviewController;
 use App\Http\Controllers\Admin\ScheduleManagementController;
@@ -37,9 +42,15 @@ Route::middleware(JwtAuthenticate::class)->group(function(){
     Route::get('/dashboard/summary',[DashboardController::class,'summary']); Route::get('/dashboard/stream',[DashboardController::class,'stream']);
     Route::get('/notifications',[NotificationController::class,'index']); Route::get('/notifications/unread-count',[NotificationController::class,'unreadCount']); Route::patch('/notifications/{notification}/read',[NotificationController::class,'markAsRead']);
     Route::get('/trainer/application',[TrainerApplicationController::class,'status']); Route::post('/trainer/application',[TrainerApplicationController::class,'store']); Route::post('/trainer/workspace/enter',[TrainerApplicationController::class,'enterWorkspace']); Route::post('/trainer/workspace/leave',[TrainerApplicationController::class,'leaveWorkspace']);
+    Route::prefix('trainer')->middleware(EnsureTrainerWorkspaceAccess::class)->group(function(){
+        Route::get('/member-monitoring/summary',[MemberFitnessMonitoringController::class,'summary']); Route::get('/member-monitoring/members',[MemberFitnessMonitoringController::class,'members']); Route::get('/member-monitoring/members/{member}',[MemberFitnessMonitoringController::class,'show']);
+        Route::get('/incoming-rent-history/summary',[IncomingRentHistoryController::class,'summary']); Route::get('/incoming-rent-history',[IncomingRentHistoryController::class,'index']);
+    });
     Route::prefix('admin')->middleware(EnsureRole::class.':admin')->group(function(){
         Route::get('/roles',[UserManagementController::class,'roles']);
         Route::get('/landing-visits',[LandingVisitReportController::class,'index']); Route::get('/landing-visits/summary',[LandingVisitReportController::class,'summary']);
+        Route::get('/auth-activity/summary',[AuthActivityReportController::class,'summary']); Route::get('/auth-activity/logs',[AuthActivityReportController::class,'logs']); Route::get('/auth-activity/registrations',[AuthActivityReportController::class,'registrations']);
+        Route::get('/member-reports/summary',[MemberPaymentAttendanceReportController::class,'summary']); Route::get('/member-reports/payments',[MemberPaymentAttendanceReportController::class,'payments']); Route::get('/member-reports/attendance',[MemberPaymentAttendanceReportController::class,'attendance']);
         Route::get('/prospective-members',[ProspectiveMemberReviewController::class,'index']); Route::post('/prospective-members/{registration}/approve',[ProspectiveMemberReviewController::class,'approve']); Route::post('/prospective-members/{registration}/reject',[ProspectiveMemberReviewController::class,'reject']);
         Route::get('/trainer-applications',[TrainerApplicationReviewController::class,'index']); Route::post('/trainer-applications/{application}/approve',[TrainerApplicationReviewController::class,'approve']); Route::post('/trainer-applications/{application}/reject',[TrainerApplicationReviewController::class,'reject']); Route::get('/trainer-applications/{application}/documents/{type}',[TrainerApplicationReviewController::class,'download'])->whereIn('type',['cv','certificate']);
         Route::apiResource('users',UserManagementController::class)->only(['index','store','update','destroy']); Route::apiResource('trainers',TrainerManagementController::class)->only(['index','store','update','destroy']); Route::apiResource('schedules',ScheduleManagementController::class)->parameters(['schedules'=>'schedule'])->only(['index','store','update','destroy']);

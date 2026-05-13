@@ -6,6 +6,8 @@ export const adminSidebarItems = [
   { label: 'Trainers', to: '/admin/trainers', icon: '🏋️' },
   { label: 'Schedules', to: '/admin/schedules', icon: '🗓️' },
   { label: 'Landing Visitors', to: '/admin/landing-visits', icon: '👀' },
+  { label: 'Auth Activity', to: '/admin/auth-activity', icon: '🔐' },
+  { label: 'Member Reports', to: '/admin/member-reports', icon: '📈' },
 ]
 
 export const memberSidebarItems = [
@@ -22,6 +24,7 @@ export const trainerSidebarItems = [
   { label: 'Schedule', to: '/trainer/schedule', icon: '🗓️' },
   { label: 'Classes', to: '/trainer/classes', icon: '🏃' },
   { label: 'Members', to: '/trainer/members', icon: '👥' },
+  { label: 'Rent History', to: '/trainer/rent-history', icon: '💰' },
   { label: 'Notifications', to: '/trainer/notifications', icon: '🔔' },
   { label: 'Profile', to: '/trainer/profile', icon: '👤' },
 ]

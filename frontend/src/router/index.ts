@@ -9,6 +9,8 @@ import ForgotPasswordPage from '../pages/ForgotPasswordPage.vue'
 import AdminDashboardPage from '../pages/admin/AdminDashboardPage.vue'
 import ProspectiveMemberReviewPage from '../pages/admin/ProspectiveMemberReviewPage.vue'
 import LandingVisitReportPage from '../pages/admin/LandingVisitReportPage.vue'
+import AuthActivityReportPage from '../pages/admin/AuthActivityReportPage.vue'
+import MemberPaymentAttendanceReportPage from '../pages/admin/MemberPaymentAttendanceReportPage.vue'
 import UserManagementPage from '../pages/admin/UserManagementPage.vue'
 import TrainerManagementPage from '../pages/admin/TrainerManagementPage.vue'
 import ScheduleManagementPage from '../pages/admin/ScheduleManagementPage.vue'
@@ -25,6 +27,7 @@ import TrainerDashboardPage from '../pages/trainer/TrainerDashboardPage.vue'
 import TrainerSchedulePage from '../pages/trainer/TrainerSchedulePage.vue'
 import TrainerClassesPage from '../pages/trainer/TrainerClassesPage.vue'
 import TrainerMembersPage from '../pages/trainer/TrainerMembersPage.vue'
+import TrainerRentHistoryPage from '../pages/trainer/TrainerRentHistoryPage.vue'
 import TrainerNotificationsPage from '../pages/trainer/TrainerNotificationsPage.vue'
 import TrainerProfilePage from '../pages/trainer/TrainerProfilePage.vue'
 
@@ -47,6 +50,8 @@ const router = createRouter({
     { path: '/admin/trainers', name: 'admin-trainers', component: TrainerManagementPage, meta: { requiresAuth: true, role: 'admin' } },
     { path: '/admin/schedules', name: 'admin-schedules', component: ScheduleManagementPage, meta: { requiresAuth: true, role: 'admin' } },
     { path: '/admin/landing-visits', name: 'admin-landing-visits', component: LandingVisitReportPage, meta: { requiresAuth: true, role: 'admin' } },
+    { path: '/admin/auth-activity', name: 'admin-auth-activity', component: AuthActivityReportPage, meta: { requiresAuth: true, role: 'admin' } },
+    { path: '/admin/member-reports', name: 'admin-member-reports', component: MemberPaymentAttendanceReportPage, meta: { requiresAuth: true, role: 'admin' } },
 
     { path: '/member/dashboard', name: 'member-dashboard', component: MemberDashboardPage, meta: { requiresAuth: true, role: 'member' } },
     { path: '/member/workout-plan', name: 'member-workout-plan', component: MemberWorkoutPlanPage, meta: { requiresAuth: true, role: 'member' } },
@@ -59,6 +64,7 @@ const router = createRouter({
     { path: '/trainer/schedule', name: 'trainer-schedule', component: TrainerSchedulePage, meta: { requiresAuth: true, requiresTrainerAccess: true } },
     { path: '/trainer/classes', name: 'trainer-classes', component: TrainerClassesPage, meta: { requiresAuth: true, requiresTrainerAccess: true } },
     { path: '/trainer/members', name: 'trainer-members', component: TrainerMembersPage, meta: { requiresAuth: true, requiresTrainerAccess: true } },
+    { path: '/trainer/rent-history', name: 'trainer-rent-history', component: TrainerRentHistoryPage, meta: { requiresAuth: true, requiresTrainerAccess: true } },
     { path: '/trainer/notifications', name: 'trainer-notifications', component: TrainerNotificationsPage, meta: { requiresAuth: true, requiresTrainerAccess: true } },
     { path: '/trainer/profile', name: 'trainer-profile', component: TrainerProfilePage, meta: { requiresAuth: true, requiresTrainerAccess: true } },
 
