@@ -12,7 +12,9 @@ use App\Http\Controllers\Admin\TrainerApplicationReviewController;
 use App\Http\Controllers\Admin\UserManagementController;
 use App\Http\Controllers\Analytics\LandingVisitController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BookingController;
 use App\Http\Controllers\BrowserTrackingController;
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\ManualPaymentMethodController;
@@ -37,11 +39,33 @@ Route::prefix('auth')->group(function(){
     Route::post('/otp/send',[OtpController::class,'send']); Route::post('/otp/verify',[OtpController::class,'verify']);
     Route::middleware(JwtAuthenticate::class)->group(function(){ Route::get('/me',[AuthController::class,'me']); Route::post('/logout',[AuthController::class,'logout']); });
 });
+
+// Public trainer list (for member hire-trainer page)
+Route::get('/trainers/list', [App\Http\Controllers\Admin\TrainerManagementController::class, 'publicList']);
+
 Route::middleware(JwtAuthenticate::class)->group(function(){
     Route::prefix('browser')->group(function(){ Route::post('/heartbeat',[BrowserTrackingController::class,'heartbeat']); Route::post('/elect-leader',[BrowserTrackingController::class,'electLeader']); Route::post('/release-leader',[BrowserTrackingController::class,'releaseLeader']); });
     Route::get('/dashboard/summary',[DashboardController::class,'summary']); Route::get('/dashboard/stream',[DashboardController::class,'stream']);
-    Route::get('/notifications',[NotificationController::class,'index']); Route::get('/notifications/unread-count',[NotificationController::class,'unreadCount']); Route::patch('/notifications/{notification}/read',[NotificationController::class,'markAsRead']);
+
+    // Notifications — markAllRead BEFORE {notification}/read to avoid route collision
+    Route::get('/notifications',[NotificationController::class,'index']); Route::get('/notifications/unread-count',[NotificationController::class,'unreadCount']);
+    Route::patch('/notifications/read-all',[NotificationController::class,'markAllRead']);
+    Route::patch('/notifications/{notification}/read',[NotificationController::class,'markAsRead']);
+
     Route::get('/trainer/application',[TrainerApplicationController::class,'status']); Route::post('/trainer/application',[TrainerApplicationController::class,'store']); Route::post('/trainer/workspace/enter',[TrainerApplicationController::class,'enterWorkspace']); Route::post('/trainer/workspace/leave',[TrainerApplicationController::class,'leaveWorkspace']);
+
+    // Bookings
+    Route::get('/bookings',[BookingController::class,'index']);
+    Route::post('/bookings',[BookingController::class,'store']);
+    Route::patch('/bookings/{id}/status',[BookingController::class,'updateStatus']);
+
+    // Chat
+    Route::prefix('chat')->group(function(){
+        Route::get('/contacts',[ChatController::class,'contacts']);
+        Route::get('/messages',[ChatController::class,'messages']);
+        Route::post('/messages',[ChatController::class,'send']);
+    });
+
     Route::prefix('trainer')->middleware(EnsureTrainerWorkspaceAccess::class)->group(function(){
         Route::get('/member-monitoring/summary',[MemberFitnessMonitoringController::class,'summary']); Route::get('/member-monitoring/members',[MemberFitnessMonitoringController::class,'members']); Route::get('/member-monitoring/members/{member}',[MemberFitnessMonitoringController::class,'show']);
         Route::get('/incoming-rent-history/summary',[IncomingRentHistoryController::class,'summary']); Route::get('/incoming-rent-history',[IncomingRentHistoryController::class,'index']);

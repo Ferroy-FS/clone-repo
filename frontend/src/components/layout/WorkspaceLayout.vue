@@ -2,12 +2,19 @@
 import { ref } from 'vue'
 import WorkspaceSidebar from './WorkspaceSidebar.vue'
 
+type MenuItem = {
+  label: string
+  to?: string
+  icon?: string
+  submenu?: Array<{ label: string; to: string; icon?: string }>
+}
+
 defineProps<{
   role: 'admin' | 'member' | 'trainer'
   title: string
   subtitle?: string
   sidebarTitle: string
-  sidebarItems: Array<{ label: string; to: string; icon?: string }>
+  sidebarItems: MenuItem[]
 }>()
 
 const mobileOpen = ref(false)

@@ -22,6 +22,7 @@ import MemberMealPlanPage from '../pages/member/MemberMealPlanPage.vue'
 import MemberHireTrainerPage from '../pages/member/MemberHireTrainerPage.vue'
 import MemberMembershipPage from '../pages/member/MemberMembershipPage.vue'
 import MemberProfilePage from '../pages/member/MemberProfilePage.vue'
+import MemberChatPage from '../pages/member/MemberChatPage.vue'
 
 import TrainerDashboardPage from '../pages/trainer/TrainerDashboardPage.vue'
 import TrainerSchedulePage from '../pages/trainer/TrainerSchedulePage.vue'
@@ -30,6 +31,7 @@ import TrainerMembersPage from '../pages/trainer/TrainerMembersPage.vue'
 import TrainerRentHistoryPage from '../pages/trainer/TrainerRentHistoryPage.vue'
 import TrainerNotificationsPage from '../pages/trainer/TrainerNotificationsPage.vue'
 import TrainerProfilePage from '../pages/trainer/TrainerProfilePage.vue'
+import TrainerChatPage from '../pages/trainer/TrainerChatPage.vue'
 
 import { useAuthStore } from '../stores/authStore'
 
@@ -57,13 +59,17 @@ const router = createRouter({
     { path: '/member/workout-plan', name: 'member-workout-plan', component: MemberWorkoutPlanPage, meta: { requiresAuth: true, role: 'member' } },
     { path: '/member/meal-plan', name: 'member-meal-plan', component: MemberMealPlanPage, meta: { requiresAuth: true, role: 'member' } },
     { path: '/member/hire-trainer', name: 'member-hire-trainer', component: MemberHireTrainerPage, meta: { requiresAuth: true, role: 'member' } },
+    { path: '/member/chat', name: 'member-chat', component: MemberChatPage, meta: { requiresAuth: true, role: 'member' } },
     { path: '/member/memberships', name: 'member-memberships', component: MemberMembershipPage, meta: { requiresAuth: true, role: 'member' } },
     { path: '/member/profile', name: 'member-profile', component: MemberProfilePage, meta: { requiresAuth: true, role: 'member' } },
+
+    { path: '/trainer/daftar', name: 'trainer-apply', component: () => import('../pages/member/MemberTrainerApplyPage.vue'), meta: { requiresAuth: true, role: 'member' } },
 
     { path: '/trainer/dashboard', name: 'trainer-dashboard', component: TrainerDashboardPage, meta: { requiresAuth: true, requiresTrainerAccess: true } },
     { path: '/trainer/schedule', name: 'trainer-schedule', component: TrainerSchedulePage, meta: { requiresAuth: true, requiresTrainerAccess: true } },
     { path: '/trainer/classes', name: 'trainer-classes', component: TrainerClassesPage, meta: { requiresAuth: true, requiresTrainerAccess: true } },
     { path: '/trainer/members', name: 'trainer-members', component: TrainerMembersPage, meta: { requiresAuth: true, requiresTrainerAccess: true } },
+    { path: '/trainer/chat', name: 'trainer-chat', component: TrainerChatPage, meta: { requiresAuth: true, requiresTrainerAccess: true } },
     { path: '/trainer/rent-history', name: 'trainer-rent-history', component: TrainerRentHistoryPage, meta: { requiresAuth: true, requiresTrainerAccess: true } },
     { path: '/trainer/notifications', name: 'trainer-notifications', component: TrainerNotificationsPage, meta: { requiresAuth: true, requiresTrainerAccess: true } },
     { path: '/trainer/profile', name: 'trainer-profile', component: TrainerProfilePage, meta: { requiresAuth: true, requiresTrainerAccess: true } },

@@ -35,6 +35,7 @@ services:
     working_dir: /app
     volumes:
       - ./frontend:/app
+      - /app/node_modules
     ports:
       - "5173:5173"
     command: sh -lc "npm install && chmod -R a+x node_modules/.bin || true && npm run dev -- --host 0.0.0.0"
