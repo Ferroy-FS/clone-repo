@@ -41,7 +41,8 @@
                     <h4 class="font-bold mt-1">{{ item.title }}</h4>
                     <p class="text-muted text-sm">{{ item.body }}</p>
                   </div>
-                  <button v-if="!item.is_read" @click="markAsRead(item.id)" class="btn-check-sm">✔</button>
+                  <button v-if="!item.is_read" @click="markAsRead(item.id)" class="button button-primary button-small text-[10px] py-1 px-2">TANDAI</button>
+                  <span v-else class="text-[10px] font-bold text-blue-400">DIBACA</span>
                 </div>
               </div>
             </div>
@@ -137,7 +138,10 @@
 
           <!-- Column 2: System Notifications -->
           <div class="system-notifs-col">
-            <h2 class="title-sm border-b pb-2 mb-6">🔔 Log Notifikasi</h2>
+            <div class="flex justify-between items-center border-b pb-2 mb-6">
+              <h2 class="title-sm m-0">🔔 Log Notifikasi</h2>
+              <button v-if="realNotifications.length > 0" @click="markAllReadMember" class="text-blue-500 text-xs font-bold hover:underline">Tandai Semua Dibaca</button>
+            </div>
             
             <div v-if="realNotifications.length === 0" class="empty-state-sm card p-6 text-center text-muted text-sm">
               Tidak ada notifikasi baru.
@@ -328,7 +332,7 @@ export default {
       }
 
       try {
-        await api.post('/notifications/mark-read', { id });
+        await api.patch(`/notifications/${id}/read`);
         await this.fetchNotifications();
       } catch (error) {
         console.error("Gagal update status baca:", error);
@@ -345,7 +349,7 @@ export default {
       localStorage.setItem('fitnez_read_notifs', JSON.stringify(this.readDummyIds));
       
       try {
-        await api.post('/notifications/mark-read', { id: 'all', type: 'trainer' });
+        await api.patch('/notifications/read-all');
         await this.fetchNotifications();
       } catch (error) {
         console.error("Gagal update status baca trainer:", error);
@@ -355,7 +359,7 @@ export default {
     async markAllReadMember() {
 
       try {
-        await api.post('/notifications/mark-read', { id: 'all' });
+        await api.patch('/notifications/read-all');
         await this.fetchNotifications();
       } catch (e) {
         console.error(e);

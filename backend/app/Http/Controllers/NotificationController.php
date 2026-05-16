@@ -52,4 +52,14 @@ class NotificationController extends Controller
 
         return ApiResponse::success('All notifications marked as read.');
     }
+
+    public function trainerNotifications(Request $request)
+    {
+        $notifications = Notification::where('user_id', $request->user()->id)
+            ->whereIn('notification_type', ['rent', 'hire', 'schedule', 'classes'])
+            ->orderByDesc('id')
+            ->get();
+
+        return ApiResponse::success('Trainer notifications loaded.', $notifications);
+    }
 }

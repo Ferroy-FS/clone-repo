@@ -16,6 +16,7 @@ import TrainerManagementPage from '../pages/admin/TrainerManagementPage.vue'
 import ScheduleManagementPage from '../pages/admin/ScheduleManagementPage.vue'
 import TrainerApplicationReviewPage from '../pages/admin/TrainerApplicationReviewPage.vue'
 import AdminNutritionMonitoringPage from '../pages/admin/AdminNutritionMonitoringPage.vue'
+import AdminNotificationsPage from '../pages/admin/AdminNotificationsPage.vue'
 
 import MemberDashboardPage from '../pages/member/MemberDashboardPage.vue'
 import MemberWorkoutPlanPage from '../pages/member/MemberWorkoutPlanPage.vue'
@@ -24,6 +25,7 @@ import MemberHireTrainerPage from '../pages/member/MemberHireTrainerPage.vue'
 import MemberMembershipPage from '../pages/member/MemberMembershipPage.vue'
 import MemberProfilePage from '../pages/member/MemberProfilePage.vue'
 import MemberChatPage from '../pages/member/MemberChatPage.vue'
+import MemberNotificationsPage from '../pages/member/MemberNotificationsPage.vue'
 
 import TrainerDashboardPage from '../pages/trainer/TrainerDashboardPage.vue'
 import TrainerSchedulePage from '../pages/trainer/TrainerSchedulePage.vue'
@@ -56,6 +58,7 @@ const router = createRouter({
     { path: '/admin/auth-activity', name: 'admin-auth-activity', component: AuthActivityReportPage, meta: { requiresAuth: true, role: 'admin' } },
     { path: '/admin/member-reports', name: 'admin-member-reports', component: MemberPaymentAttendanceReportPage, meta: { requiresAuth: true, role: 'admin' } },
     { path: '/admin/nutrition-monitoring', name: 'admin-nutrition-monitoring', component: AdminNutritionMonitoringPage, meta: { requiresAuth: true, role: 'admin' } },
+    { path: '/admin/notifications', name: 'admin-notifications', component: AdminNotificationsPage, meta: { requiresAuth: true, role: 'admin' } },
 
     { path: '/member/dashboard', name: 'member-dashboard', component: MemberDashboardPage, meta: { requiresAuth: true, role: 'member' } },
     { path: '/member/workout-plan', name: 'member-workout-plan', component: MemberWorkoutPlanPage, meta: { requiresAuth: true, role: 'member' } },
@@ -64,6 +67,7 @@ const router = createRouter({
     { path: '/member/chat', name: 'member-chat', component: MemberChatPage, meta: { requiresAuth: true, role: 'member' } },
     { path: '/member/memberships', name: 'member-memberships', component: MemberMembershipPage, meta: { requiresAuth: true, role: 'member' } },
     { path: '/member/profile', name: 'member-profile', component: MemberProfilePage, meta: { requiresAuth: true, role: 'member' } },
+    { path: '/member/notifications', name: 'member-notifications', component: MemberNotificationsPage, meta: { requiresAuth: true, role: 'member' } },
 
     { path: '/trainer/daftar', name: 'trainer-apply', component: () => import('../pages/member/MemberTrainerApplyPage.vue'), meta: { requiresAuth: true, role: 'member' } },
 

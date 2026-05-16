@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted, computed } from 'vue'
-import RoleLayout from '../../components/layout/RoleLayout.vue'
+import WorkspaceLayout from '../../components/layout/WorkspaceLayout.vue'
 import { trainerSidebarItems } from '../../components/layout/sidebarItems'
 import FitnezCard from '../../components/ui/FitnezCard.vue'
 import { useBookingStore } from '../../stores/bookingStore'
@@ -39,7 +39,7 @@ onMounted(() => store.loadBookings())
 </script>
 
 <template>
-  <RoleLayout
+  <WorkspaceLayout
     role="trainer"
     sidebar-title="Trainer"
     title="Jadwal Melatih"
@@ -125,5 +125,5 @@ onMounted(() => store.loadBookings())
         </div>
       </section>
     </div>
-  </RoleLayout>
+  </WorkspaceLayout>
 </template>

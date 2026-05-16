@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
-import RoleLayout from '../../components/layout/RoleLayout.vue'
+import WorkspaceLayout from '../../components/layout/WorkspaceLayout.vue'
 import { trainerSidebarItems } from '../../components/layout/sidebarItems'
 import FitnezCard from '../../components/ui/FitnezCard.vue'
 import { useNotificationStore } from '../../stores/notificationStore'
@@ -32,26 +32,32 @@ onMounted(async () => {
 </script>
 
 <template>
-  <RoleLayout
+  <WorkspaceLayout
     role="trainer"
     sidebar-title="Trainer"
     title="Notifications"
     subtitle="Pengingat jadwal latihan dan pembayaran masuk."
     :sidebar-items="trainerSidebarItems"
   >
-    <div style="display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 0.75rem; margin-bottom: 1.25rem;">
-      <div>
-        <p class="stat-label">Total Belum Dibaca</p>
-        <p class="title-md">{{ store.unreadCount }}</p>
+    <div class="card" style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; padding: 1.25rem; margin-bottom: 1.5rem; background: linear-gradient(135deg, #fff 0%, var(--color-cream) 100%); border: 1px solid var(--color-orange-light);">
+      <div style="display: flex; align-items: center; gap: 1rem;">
+        <div style="width: 3rem; height: 3rem; border-radius: 1rem; background: var(--color-orange); display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem; box-shadow: 0 4px 12px rgba(235, 110, 67, 0.2);">
+          🔔
+        </div>
+        <div>
+          <p class="stat-label" style="margin: 0;">Unread Notifications</p>
+          <p class="title-md" style="margin: 0; color: var(--color-orange);">{{ store.unreadCount }} Pesan Baru</p>
+        </div>
       </div>
       <button
-        v-if="store.unreadCount > 0"
         type="button"
-        class="button button-ghost button-small"
-        :disabled="store.loading"
+        class="button"
+        :class="store.unreadCount > 0 ? 'button-primary' : 'button-ghost'"
+        :disabled="store.loading || store.unreadCount === 0"
+        style="font-weight: 800; letter-spacing: 0.02em;"
         @click="onMarkAll"
       >
-        Tandai Semua Dibaca
+        {{ store.loading ? 'Memproses...' : 'TANDAI DIBACA SEMUA' }}
       </button>
     </div>
 
@@ -74,9 +80,9 @@ onMounted(async () => {
         :style="!n.is_read ? 'border-color: var(--color-orange); background: rgba(244, 232, 227, 0.5);' : ''"
         @click="!n.is_read && onItem(n.id)"
       >
-        <div style="display: flex; gap: 0.75rem; align-items: flex-start;">
+        <div style="display: flex; gap: 0.75rem; align-items: center;">
           <div
-            style="width: 0.5rem; min-height: 1rem; border-radius: 999px; flex-shrink: 0; margin-top: 0.25rem;"
+            style="width: 0.5rem; min-height: 1rem; border-radius: 999px; flex-shrink: 0;"
             :style="n.is_read ? 'background: rgba(0,0,0,0.1);' : 'background: var(--color-orange);'"
           />
           <div style="flex: 1; min-width: 0;">
@@ -93,11 +99,27 @@ onMounted(async () => {
                 style="font-size: 0.65rem;"
               >Jadwal</span>
             </div>
-            <p class="text-muted" style="font-size: 0.85rem; margin-top: 0.35rem;">{{ n.body }}</p>
-            <p style="font-size: 0.75rem; opacity: 0.4; margin-top: 0.5rem;">{{ formatTime(n.created_at) }}</p>
+            <p class="text-muted" style="font-size: 0.85rem; margin-top: 0.25rem;">{{ n.body }}</p>
+            <p style="font-size: 0.75rem; opacity: 0.4; margin-top: 0.25rem;">{{ formatTime(n.created_at) }}</p>
+          </div>
+
+          <div style="flex-shrink: 0; padding-left: 0.5rem; border-left: 1px solid rgba(0,0,0,0.05);">
+            <button
+              v-if="!n.is_read"
+              type="button"
+              class="button button-primary button-small"
+              style="padding: 0.5rem 0.75rem; font-size: 0.7rem; letter-spacing: 0.05em;"
+              @click.stop="onItem(n.id)"
+            >
+              TANDAI DIBACA
+            </button>
+            <div v-else style="display: flex; align-items: center; gap: 0.35rem; color: var(--color-blue); opacity: 0.6;">
+              <span style="font-size: 0.8rem;">✓</span>
+              <span style="font-size: 0.65rem; font-weight: 900; letter-spacing: 0.1em;">DIBACA</span>
+            </div>
           </div>
         </div>
       </FitnezCard>
     </div>
-  </RoleLayout>
+  </WorkspaceLayout>
 </template>

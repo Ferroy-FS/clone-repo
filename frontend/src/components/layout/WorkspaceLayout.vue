@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import { RouterLink } from 'vue-router'
 import WorkspaceSidebar from './WorkspaceSidebar.vue'
@@ -10,13 +10,21 @@ type MenuItem = {
   submenu?: Array<{ label: string; to: string; icon?: string }>
 }
 
-defineProps<{
+const props = defineProps<{
   role: 'admin' | 'member' | 'trainer'
   title: string
   subtitle?: string
   sidebarTitle: string
   sidebarItems: MenuItem[]
 }>()
+
+const notificationLink = computed(() => {
+  switch (props.role) {
+    case 'admin': return '/admin/notifications'
+    case 'trainer': return '/trainer/notifications'
+    default: return '/member/notifications'
+  }
+})
 
 const mobileOpen = ref(false)
 const isCollapsed = ref(false)

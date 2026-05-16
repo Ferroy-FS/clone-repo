@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref, nextTick, watch } from 'vue'
-import RoleLayout from '../../components/layout/RoleLayout.vue'
+import WorkspaceLayout from '../../components/layout/WorkspaceLayout.vue'
 import { trainerSidebarItems } from '../../components/layout/sidebarItems'
 import FitnezCard from '../../components/ui/FitnezCard.vue'
 import { useChatStore } from '../../stores/chatStore'
@@ -44,7 +44,7 @@ onMounted(() => chat.loadContacts())
 </script>
 
 <template>
-  <RoleLayout
+  <WorkspaceLayout
     role="trainer"
     sidebar-title="Trainer"
     title="Chat"
@@ -152,7 +152,7 @@ onMounted(() => chat.loadContacts())
         </template>
       </FitnezCard>
     </div>
-  </RoleLayout>
+  </WorkspaceLayout>
 </template>
 
 <style scoped>

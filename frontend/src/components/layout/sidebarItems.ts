@@ -9,6 +9,7 @@ export const adminSidebarItems = [
   { label: 'Auth Activity', to: '/admin/auth-activity', icon: '🔐' },
   { label: 'Member Reports', to: '/admin/member-reports', icon: '📈' },
   { label: 'Nutrition Monitoring', to: '/admin/nutrition-monitoring', icon: '🥗' },
+  { label: 'Notifications', to: '/admin/notifications', icon: '🔔' },
 ]
 
 export const memberSidebarItems = [
