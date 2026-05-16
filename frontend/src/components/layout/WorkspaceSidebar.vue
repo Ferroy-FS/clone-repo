@@ -1,14 +1,15 @@
-<script setup lang="ts">
+<script setup>
 import { RouterLink, useRoute, useRouter } from 'vue-router'
 import { useAuthStore } from '../../stores/authStore'
 
-defineProps<{
-  role: 'admin' | 'member' | 'trainer'
-  title: string
-  items: Array<{ label: string; to: string; icon?: string }>
-}>()
+defineProps({
+  role: String,
+  title: String,
+  items: Array,
+  collapsed: Boolean
+})
 
-const emit = defineEmits<{ close: [] }>()
+const emit = defineEmits(['close'])
 const route = useRoute()
 const router = useRouter()
 const auth = useAuthStore()
@@ -30,12 +31,12 @@ async function logout() {
       <div class="sidebar-brand">
         <div class="sidebar-logo">
           <div class="sidebar-mark">F</div>
-          <div>
+          <div v-if="!collapsed">
             <p class="eyebrow eyebrow-light">Fitnez</p>
             <h1 class="sidebar-title">{{ title }}</h1>
           </div>
         </div>
-        <p class="sidebar-subtitle">{{ role }} workspace</p>
+        <p v-if="!collapsed" class="sidebar-subtitle">{{ role }} workspace</p>
       </div>
     </div>
 
@@ -44,17 +45,19 @@ async function logout() {
         v-for="item in items"
         :key="item.to"
         :to="item.to"
-        :class="['sidebar-link', route.path === item.to && 'sidebar-link-active']"
+        :class="['sidebar-link', route.path === item.to && 'sidebar-link-active', collapsed && 'sidebar-link-collapsed']"
         @click="close"
+        :title="collapsed ? item.label : ''"
       >
-        <span>{{ item.icon || '•' }}</span>
-        <span>{{ item.label }}</span>
+        <span class="sidebar-icon">{{ item.icon || '•' }}</span>
+        <span v-if="!collapsed">{{ item.label }}</span>
       </RouterLink>
     </nav>
 
     <div class="sidebar-footer">
-      <button type="button" class="sidebar-link" style="width: 100%; text-align: left;" @click="logout">
-        Logout / Switch Account
+      <button type="button" :class="['sidebar-link', collapsed && 'sidebar-link-collapsed']" style="width: 100%; text-align: left;" @click="logout" :title="collapsed ? 'Logout' : ''">
+        <span class="sidebar-icon">🚪</span>
+        <span v-if="!collapsed">Logout</span>
       </button>
     </div>
   </div>

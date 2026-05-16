@@ -15,6 +15,7 @@ export const memberSidebarItems = [
   { label: 'Hire a Trainer', to: '/member/hire-trainer', icon: '🤝' },
   { label: 'Memberships', to: '/member/memberships', icon: '💳' },
   { label: 'Profile', to: '/member/profile', icon: '👤' },
+  { label: 'Notifications', to: '/member/notifications', icon: '🔔' },
 ]
 
 export const trainerSidebarItems = [

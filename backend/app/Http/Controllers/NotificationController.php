@@ -29,7 +29,7 @@ class NotificationController extends Controller
         return ApiResponse::success('Unread notifications loaded.', ['count' => $count]);
     }
 
-    public function markAsRead(Request $request, Notification $notification)
+    public function markAsReadIndividual(Request $request, Notification $notification)
     {
         $belongsToCurrentUser = (int) $notification->user_id === (int) $request->user()->id;
         $isGlobalNotification = is_null($notification->user_id);
@@ -41,5 +41,54 @@ class NotificationController extends Controller
         $notification->update(['is_read' => true]);
 
         return ApiResponse::success('Notification marked as read.', $notification->fresh());
+    }
+
+    public function markRead(Request $request)
+    {
+        $id = $request->input('id');
+        $type = $request->input('type'); 
+
+        if ($id === 'all') {
+            $query = Notification::query()->where('is_read', false);
+            
+            if ($type === 'trainer') {
+
+                $query->where('user_id', $request->user()->id);
+            } else {
+                $query->where('user_id', $request->user()->id);
+            }
+            
+            $query->update(['is_read' => true]);
+            return ApiResponse::success('All notifications marked as read.');
+        }
+
+        $notification = Notification::find($id);
+        if (!$notification) {
+            return ApiResponse::error('Notification not found.', [], 404);
+        }
+
+        if ((int)$notification->user_id !== (int)$request->user()->id) {
+            return ApiResponse::error('Unauthorized.', [], 403);
+        }
+
+        $notification->update(['is_read' => true]);
+        return ApiResponse::success('Notification marked as read.');
+    }
+
+    public function trainerNotifications(Request $request)
+    {
+
+        $notifications = Notification::where('user_id', $request->user()->id)
+            ->whereIn('notification_type', ['rent', 'hire', 'schedule', 'classes'])
+            ->orderByDesc('id')
+            ->get();
+
+        return ApiResponse::success('Trainer notifications loaded.', $notifications);
+    }
+
+    public function clearAll(Request $request)
+    {
+        Notification::where('user_id', $request->user()->id)->delete();
+        return ApiResponse::success('All notifications cleared.');
     }
 }

@@ -13,6 +13,7 @@ import UserManagementPage from '../pages/admin/UserManagementPage.vue'
 import TrainerManagementPage from '../pages/admin/TrainerManagementPage.vue'
 import ScheduleManagementPage from '../pages/admin/ScheduleManagementPage.vue'
 import TrainerApplicationReviewPage from '../pages/admin/TrainerApplicationReviewPage.vue'
+import AdminNotificationsPage from '../pages/admin/AdminNotificationsPage.vue'
 
 import MemberDashboardPage from '../pages/member/MemberDashboardPage.vue'
 import MemberWorkoutPlanPage from '../pages/member/MemberWorkoutPlanPage.vue'
@@ -20,12 +21,12 @@ import MemberMealPlanPage from '../pages/member/MemberMealPlanPage.vue'
 import MemberHireTrainerPage from '../pages/member/MemberHireTrainerPage.vue'
 import MemberMembershipPage from '../pages/member/MemberMembershipPage.vue'
 import MemberProfilePage from '../pages/member/MemberProfilePage.vue'
+import MemberNotificationsPage from '../pages/member/MemberNotificationsPage.vue'
 
 import TrainerDashboardPage from '../pages/trainer/TrainerDashboardPage.vue'
 import TrainerSchedulePage from '../pages/trainer/TrainerSchedulePage.vue'
 import TrainerClassesPage from '../pages/trainer/TrainerClassesPage.vue'
 import TrainerMembersPage from '../pages/trainer/TrainerMembersPage.vue'
-import TrainerNotificationsPage from '../pages/trainer/TrainerNotificationsPage.vue'
 import TrainerProfilePage from '../pages/trainer/TrainerProfilePage.vue'
 
 import { useAuthStore } from '../stores/authStore'
@@ -47,6 +48,7 @@ const router = createRouter({
     { path: '/admin/trainers', name: 'admin-trainers', component: TrainerManagementPage, meta: { requiresAuth: true, role: 'admin' } },
     { path: '/admin/schedules', name: 'admin-schedules', component: ScheduleManagementPage, meta: { requiresAuth: true, role: 'admin' } },
     { path: '/admin/landing-visits', name: 'admin-landing-visits', component: LandingVisitReportPage, meta: { requiresAuth: true, role: 'admin' } },
+    { path: '/admin/notifications', name: 'admin-notifications', component: AdminNotificationsPage, meta: { requiresAuth: true, role: 'admin' } },
 
     { path: '/member/dashboard', name: 'member-dashboard', component: MemberDashboardPage, meta: { requiresAuth: true, role: 'member' } },
     { path: '/member/workout-plan', name: 'member-workout-plan', component: MemberWorkoutPlanPage, meta: { requiresAuth: true, role: 'member' } },
@@ -54,12 +56,13 @@ const router = createRouter({
     { path: '/member/hire-trainer', name: 'member-hire-trainer', component: MemberHireTrainerPage, meta: { requiresAuth: true, role: 'member' } },
     { path: '/member/memberships', name: 'member-memberships', component: MemberMembershipPage, meta: { requiresAuth: true, role: 'member' } },
     { path: '/member/profile', name: 'member-profile', component: MemberProfilePage, meta: { requiresAuth: true, role: 'member' } },
+    { path: '/member/notifications', name: 'member-notifications', component: MemberNotificationsPage, meta: { requiresAuth: true, role: 'member' } },
 
     { path: '/trainer/dashboard', name: 'trainer-dashboard', component: TrainerDashboardPage, meta: { requiresAuth: true, requiresTrainerAccess: true } },
     { path: '/trainer/schedule', name: 'trainer-schedule', component: TrainerSchedulePage, meta: { requiresAuth: true, requiresTrainerAccess: true } },
     { path: '/trainer/classes', name: 'trainer-classes', component: TrainerClassesPage, meta: { requiresAuth: true, requiresTrainerAccess: true } },
     { path: '/trainer/members', name: 'trainer-members', component: TrainerMembersPage, meta: { requiresAuth: true, requiresTrainerAccess: true } },
-    { path: '/trainer/notifications', name: 'trainer-notifications', component: TrainerNotificationsPage, meta: { requiresAuth: true, requiresTrainerAccess: true } },
+    { path: '/trainer/notifications', name: 'trainer-notifications', component: MemberNotificationsPage, meta: { requiresAuth: true, requiresTrainerAccess: true } },
     { path: '/trainer/profile', name: 'trainer-profile', component: TrainerProfilePage, meta: { requiresAuth: true, requiresTrainerAccess: true } },
 
     { path: '/:pathMatch(.*)*', redirect: '/' },

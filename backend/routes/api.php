@@ -1,4 +1,5 @@
 <?php
+use App\Http\Controllers\Admin\AdminNotificationController;
 use App\Http\Controllers\Admin\LandingVisitReportController;
 use App\Http\Controllers\Admin\ProspectiveMemberReviewController;
 use App\Http\Controllers\Admin\ScheduleManagementController;
@@ -15,6 +16,8 @@ use App\Http\Controllers\ManualProspectiveRegistrationController;
 use App\Http\Controllers\MembershipPackageController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\TrainerApplicationController;
+use App\Http\Controllers\TrainerBookingController;
+use App\Http\Controllers\WorkoutPlanController;
 use App\Http\Controllers\OtpController;
 use App\Http\Middleware\EnsureRole;
 use App\Http\Middleware\JwtAuthenticate;
@@ -35,11 +38,26 @@ Route::prefix('auth')->group(function(){
 Route::middleware(JwtAuthenticate::class)->group(function(){
     Route::prefix('browser')->group(function(){ Route::post('/heartbeat',[BrowserTrackingController::class,'heartbeat']); Route::post('/elect-leader',[BrowserTrackingController::class,'electLeader']); Route::post('/release-leader',[BrowserTrackingController::class,'releaseLeader']); });
     Route::get('/dashboard/summary',[DashboardController::class,'summary']); Route::get('/dashboard/stream',[DashboardController::class,'stream']);
-    Route::get('/notifications',[NotificationController::class,'index']); Route::get('/notifications/unread-count',[NotificationController::class,'unreadCount']); Route::patch('/notifications/{notification}/read',[NotificationController::class,'markAsRead']);
+    Route::get('/notifications',[NotificationController::class,'index']); 
+    Route::get('/notifications/unread-count',[NotificationController::class,'unreadCount']); 
+    Route::patch('/notifications/{notification}/read',[NotificationController::class,'markAsReadIndividual']);
+    Route::post('/notifications/mark-read',[NotificationController::class,'markRead']);
+    Route::delete('/notifications/clear-all', [NotificationController::class, 'clearAll']);
+    Route::get('/trainer/notifications',[NotificationController::class,'trainerNotifications']);
+    Route::delete('/workout-plans/clear-all', [WorkoutPlanController::class, 'clearAll']);
+    Route::apiResource('workout-plans', WorkoutPlanController::class);
+    Route::get('/trainers', [TrainerBookingController::class, 'getTrainers']);
+    Route::post('/trainers/hire', [TrainerBookingController::class, 'store']);
+
     Route::get('/trainer/application',[TrainerApplicationController::class,'status']); Route::post('/trainer/application',[TrainerApplicationController::class,'store']); Route::post('/trainer/workspace/enter',[TrainerApplicationController::class,'enterWorkspace']); Route::post('/trainer/workspace/leave',[TrainerApplicationController::class,'leaveWorkspace']);
     Route::prefix('admin')->middleware(EnsureRole::class.':admin')->group(function(){
         Route::get('/roles',[UserManagementController::class,'roles']);
         Route::get('/landing-visits',[LandingVisitReportController::class,'index']); Route::get('/landing-visits/summary',[LandingVisitReportController::class,'summary']);
+        
+        Route::get('/notifications', [AdminNotificationController::class, 'index']);
+        Route::post('/approve/{id}', [AdminNotificationController::class, 'approve']);
+        Route::post('/reject/{id}', [AdminNotificationController::class, 'reject']);
+
         Route::get('/prospective-members',[ProspectiveMemberReviewController::class,'index']); Route::post('/prospective-members/{registration}/approve',[ProspectiveMemberReviewController::class,'approve']); Route::post('/prospective-members/{registration}/reject',[ProspectiveMemberReviewController::class,'reject']);
         Route::get('/trainer-applications',[TrainerApplicationReviewController::class,'index']); Route::post('/trainer-applications/{application}/approve',[TrainerApplicationReviewController::class,'approve']); Route::post('/trainer-applications/{application}/reject',[TrainerApplicationReviewController::class,'reject']); Route::get('/trainer-applications/{application}/documents/{type}',[TrainerApplicationReviewController::class,'download'])->whereIn('type',['cv','certificate']);
         Route::apiResource('users',UserManagementController::class)->only(['index','store','update','destroy']); Route::apiResource('trainers',TrainerManagementController::class)->only(['index','store','update','destroy']); Route::apiResource('schedules',ScheduleManagementController::class)->parameters(['schedules'=>'schedule'])->only(['index','store','update','destroy']);
