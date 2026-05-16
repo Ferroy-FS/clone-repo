@@ -8,14 +8,15 @@ export const adminSidebarItems = [
   { label: 'Landing Visitors', to: '/admin/landing-visits', icon: '👀' },
   { label: 'Auth Activity', to: '/admin/auth-activity', icon: '🔐' },
   { label: 'Member Reports', to: '/admin/member-reports', icon: '📈' },
+  { label: 'Nutrition Monitoring', to: '/admin/nutrition-monitoring', icon: '🥗' },
 ]
 
 export const memberSidebarItems = [
   { label: 'Dashboard', to: '/member/dashboard', icon: '🏠' },
   { label: 'Workout Plan', to: '/member/workout-plan', icon: '🏋️' },
   { label: 'Meal Plan', to: '/member/meal-plan', icon: '🥗' },
-  { 
-    label: 'Hire a Trainer', 
+  {
+    label: 'Hire a Trainer',
     icon: '🤝',
     submenu: [
       { label: 'Sewa Trainer', to: '/member/hire-trainer', icon: '🤝' },

@@ -15,6 +15,7 @@ import UserManagementPage from '../pages/admin/UserManagementPage.vue'
 import TrainerManagementPage from '../pages/admin/TrainerManagementPage.vue'
 import ScheduleManagementPage from '../pages/admin/ScheduleManagementPage.vue'
 import TrainerApplicationReviewPage from '../pages/admin/TrainerApplicationReviewPage.vue'
+import AdminNutritionMonitoringPage from '../pages/admin/AdminNutritionMonitoringPage.vue'
 
 import MemberDashboardPage from '../pages/member/MemberDashboardPage.vue'
 import MemberWorkoutPlanPage from '../pages/member/MemberWorkoutPlanPage.vue'
@@ -54,6 +55,7 @@ const router = createRouter({
     { path: '/admin/landing-visits', name: 'admin-landing-visits', component: LandingVisitReportPage, meta: { requiresAuth: true, role: 'admin' } },
     { path: '/admin/auth-activity', name: 'admin-auth-activity', component: AuthActivityReportPage, meta: { requiresAuth: true, role: 'admin' } },
     { path: '/admin/member-reports', name: 'admin-member-reports', component: MemberPaymentAttendanceReportPage, meta: { requiresAuth: true, role: 'admin' } },
+    { path: '/admin/nutrition-monitoring', name: 'admin-nutrition-monitoring', component: AdminNutritionMonitoringPage, meta: { requiresAuth: true, role: 'admin' } },
 
     { path: '/member/dashboard', name: 'member-dashboard', component: MemberDashboardPage, meta: { requiresAuth: true, role: 'member' } },
     { path: '/member/workout-plan', name: 'member-workout-plan', component: MemberWorkoutPlanPage, meta: { requiresAuth: true, role: 'member' } },

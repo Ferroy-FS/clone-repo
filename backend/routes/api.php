@@ -70,6 +70,21 @@ Route::middleware(JwtAuthenticate::class)->group(function(){
         Route::get('/member-monitoring/summary',[MemberFitnessMonitoringController::class,'summary']); Route::get('/member-monitoring/members',[MemberFitnessMonitoringController::class,'members']); Route::get('/member-monitoring/members/{member}',[MemberFitnessMonitoringController::class,'show']);
         Route::get('/incoming-rent-history/summary',[IncomingRentHistoryController::class,'summary']); Route::get('/incoming-rent-history',[IncomingRentHistoryController::class,'index']);
     });
+
+    // Meal Plan & Food Log (member)
+    Route::prefix('user')->group(function(){
+        Route::get('/meal_plan', [App\Http\Controllers\MealPlanController::class, 'getMealPlan']);
+        Route::put('/meal_plan', [App\Http\Controllers\MealPlanController::class, 'saveMealPlan']);
+        Route::get('/food_log', [App\Http\Controllers\MealPlanController::class, 'getFoodLog']);
+        Route::post('/food_log', [App\Http\Controllers\MealPlanController::class, 'addFood']);
+        Route::delete('/food_log/{id}', [App\Http\Controllers\MealPlanController::class, 'deleteFood']);
+    });
+
+    // Admin Nutrition Monitoring
+    Route::prefix('admin')->group(function(){
+        Route::get('/nutrition-monitoring', [App\Http\Controllers\MealPlanController::class, 'adminMonitoring']);
+    });
+
     Route::prefix('admin')->middleware(EnsureRole::class.':admin')->group(function(){
         Route::get('/roles',[UserManagementController::class,'roles']);
         Route::get('/landing-visits',[LandingVisitReportController::class,'index']); Route::get('/landing-visits/summary',[LandingVisitReportController::class,'summary']);

@@ -4,14 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class MealPlan extends Model
+class FoodLog extends Model
 {
     protected $fillable = [
         'user_id',
-        'daily_limit',
-        'bmr',
-        'tdee',
-        'target_kal',
+        'food_name',
+        'calories',
+        'logged_date',
     ];
 
     public function user()
