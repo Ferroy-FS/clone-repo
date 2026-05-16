@@ -29,7 +29,7 @@ class NotificationController extends Controller
         return ApiResponse::success('Unread notifications loaded.', ['count' => $count]);
     }
 
-    public function markAsRead(Request $request, Notification $notification)
+    public function markAsReadIndividual(Request $request, Notification $notification)
     {
         $belongsToCurrentUser = (int) $notification->user_id === (int) $request->user()->id;
         $isGlobalNotification = is_null($notification->user_id);

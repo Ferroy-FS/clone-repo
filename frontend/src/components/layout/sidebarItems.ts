@@ -26,6 +26,7 @@ export const memberSidebarItems = [
   { label: 'Chat', to: '/member/chat', icon: '💬' },
   { label: 'Memberships', to: '/member/memberships', icon: '💳' },
   { label: 'Profile', to: '/member/profile', icon: '👤' },
+  { label: 'Notifications', to: '/member/notifications', icon: '🔔' },
 ]
 
 export const trainerSidebarItems = [

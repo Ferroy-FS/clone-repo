@@ -16,7 +16,7 @@ defineProps<{
   items: MenuItem[]
 }>()
 
-const emit = defineEmits<{ close: [] }>()
+const emit = defineEmits(['close'])
 const route = useRoute()
 const router = useRouter()
 const auth = useAuthStore()
@@ -43,12 +43,12 @@ async function logout() {
       <div class="sidebar-brand">
         <div class="sidebar-logo">
           <div class="sidebar-mark">F</div>
-          <div>
+          <div v-if="!collapsed">
             <p class="eyebrow eyebrow-light">Fitnez</p>
             <h1 class="sidebar-title">{{ title }}</h1>
           </div>
         </div>
-        <p class="sidebar-subtitle">{{ role }} workspace</p>
+        <p v-if="!collapsed" class="sidebar-subtitle">{{ role }} workspace</p>
       </div>
     </div>
 
@@ -97,8 +97,9 @@ async function logout() {
     </nav>
 
     <div class="sidebar-footer">
-      <button type="button" class="sidebar-link" style="width: 100%; text-align: left;" @click="logout">
-        Logout / Switch Account
+      <button type="button" :class="['sidebar-link', collapsed && 'sidebar-link-collapsed']" style="width: 100%; text-align: left;" @click="logout" :title="collapsed ? 'Logout' : ''">
+        <span class="sidebar-icon">🚪</span>
+        <span v-if="!collapsed">Logout</span>
       </button>
     </div>
   </div>

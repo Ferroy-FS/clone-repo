@@ -22,6 +22,8 @@ use App\Http\Controllers\ManualProspectiveRegistrationController;
 use App\Http\Controllers\MembershipPackageController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\TrainerApplicationController;
+use App\Http\Controllers\TrainerBookingController;
+use App\Http\Controllers\WorkoutPlanController;
 use App\Http\Controllers\OtpController;
 use App\Http\Middleware\EnsureRole;
 use App\Http\Middleware\JwtAuthenticate;

@@ -62,7 +62,7 @@ onMounted(() => store.loadTrainers())
     role="member"
     sidebar-title="Member"
     title="Hire a Trainer"
-    subtitle="Find trainer support for your fitness goal."
+    subtitle="Cari dukungan pelatih profesional untuk target kebugaran Anda."
     :sidebar-items="memberSidebarItems"
   >
     <!-- Search -->
