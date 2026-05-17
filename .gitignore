@@ -1,0 +1,13 @@
+# Laravel
+backend/vendor/
+backend/.env
+backend/storage/logs/*.log
+backend/bootstrap/cache/*.php
+
+# Vue.js
+frontend/node_modules/
+frontend/dist/
+
+# Docker
+.DS_Store
+*.local

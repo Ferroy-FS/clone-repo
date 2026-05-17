@@ -1,0 +1,77 @@
+services:
+
+  nginx:
+    image: nginx:alpine
+    container_name: fitnezz-nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/fitnezz.conf:/etc/nginx/conf.d/default.conf
+      - ./backend:/var/www/backend
+      - ./frontend/dist:/var/www/frontend
+    depends_on:
+      - backend
+      - frontend
+    networks:
+      - fitnezz-network
+    restart: unless-stopped
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: fitnezz-backend
+    working_dir: /var/www/backend
+    volumes:
+      - ./backend:/var/www/backend
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - fitnezz-network
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: fitnezz-postgres
+    environment:
+      POSTGRES_DB: db_fitness
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Athil
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - fitnezz-network
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    container_name: fitnezz-redis
+    ports:
+      - "6379:6379"
+    networks:
+      - fitnezz-network
+    restart: unless-stopped
+
+  frontend:
+    image: node:20-alpine
+    container_name: fitnezz-frontend
+    working_dir: /app
+    volumes:
+      - ./frontend:/app
+    ports:
+      - "5173:5173"
+    command: sh -c "npm install && npm run dev -- --host"
+    networks:
+      - fitnezz-network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  fitnezz-network:
+    driver: bridge
